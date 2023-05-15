@@ -1,0 +1,199 @@
+#+title: Regional aerosol deposition in the human airways: The SimInhale benchmark case and a critical assessment of in silico methods
+#+author: P. Koullapis, S.C. Kassinos, J. Muela, C. Perez-Segarra, J. Regola, O. Lehmkuhl, Y.Cui, M. Sommerfeld, J. Elcner, M. Jicha, I. Saveljic, N. Filipovic, F.Lizal, L. Nicolau
+
+
+* Purpose
+- Provide refined experimental data for QA of CFPD in the upper airways
+- Provide critical review of different modelling approaches
+- Define best practice guidelines
+
+* Work Done
+** Airway models adopted
+*** Extrathoracic Airways (mouth, nose, pharynx, larynx, trachea)
+*** Intrathoracic Airways (intrathoracic trachea to alveoli)
+**** Conducting zone (generations 0 to 16)
+**** Respiratory zone (generations 17 to 23)
+
+- Gas exchange takes place.
+- Not considered in this paper.
+
+** Solution of the flow field
+*** Assumptions
+- Particles are spherical, non-rotating and non-interacting
+- Aerosol is considered a dilute suspension and modelled using a one-way coupling approach
+- Effect of the particles on the flow and inter-particle interactions are neglected
+- Deposition was assumed once a particle comes into contact with the airway walls
+- All simulations employed a Lagrangian particle-tracking approach and assumed one-way coupling between the flow and the particles.
+*** Numerical Approaches
+**** RANS: Reynolds-averaged Navier-Stokes
+**** LES: Large Eddy Simulation
+**** DNS: Direct Numerical Simulation
+*** Particle Transport Model
+**** Eulerian (two-fluid approach)
+**** Lagrangian (point-particles in continuous carrier phase) (not implemented)
+*** Formulae
+
+\begin{align*}
+  \frac{d\mathbf{x}_{p}}{dt} &= \mathbf{u}_{p} \\
+  m_{p}\frac{d\mathbf{u}_{p}}{dt} &= \sum \mathbf{F} \\
+  Re_{p} &= \frac{\rho_{f} d_{p} |\mathbf{u}_{f} - \mathbf{u}_{p}|}{\mu_{f}} \\
+  C_{D} &= \frac{24}{Re_{p}}(1 + 0.15Re_{p}^{0.687}) \\
+  C_{C} &= 1 + \frac{2\lambda}{d_{p}}\left( 1.257 + 0.4exp \left( -\frac{1.1d_{p}}{2\lambda} \right) \right) \\
+  F_{Bi} &= G_i \sqrt{\frac{2k_B^2T^{2}}{\tilde{D}\Delta t}} \\
+\end{align*}
+
+\begin{align*}
+  m_{p} \frac{d\mathbf{u}_{p}}{dt}
+  = \frac{3}{4}.\frac{\rho_{f}}{\rho_{p}}.\frac{m_{p}}{d_{p}}.\frac{C_{D}}{C_{C}}.|\mathbf{u}_{f} - \mathbf{u}_{p}|(\mathbf{u}_{f} - \mathbf{u}_{p})
+  + m_{p}g \frac{\rho_{p} - \rho_{f}}{\rho_{p}} + \mathbf{F}_{B}
+\end{align*}
+
+**** Parameters
+Reynolds flow at inlet = $\frac{U_{in}D_{in}}{v}$ = 3745
+Particle diameters range: 0.5 to 10 micrometer
+Particle density: 914 kg/m^3 (di-ethylhexyl sebacate (DEHS))
+
+**** Terminology
+- $\mathbf{x}_{p}$  : particle position
+- $\mathbf{u}_{p}$  : particle velocity
+- $m_{p}$ : particle mass
+- $d_{p}$  : particle diameter
+- $\rho_{}_{p}$  : particle density
+- $\mu_{f}$  : fluid viscosity
+- $\rho_{f}$  : fluid density
+- $\mathbf{u}_{f}$  : fluid velocity at particle location
+- $m_{f}$ : fluid mass displaced by particle
+- $Re_{p}$ : particle Reynolds number
+- $\mathbf{F}_{D}$  : drag force
+- $C_{D}$  : drag coeffcient
+- $C_{C}$  : correction factor
+- $\lambda$ (mean free path of air) = 0.070 micrometer
+- $G_{i}$ : zero mean variant Gaussian probability density function
+- $T$ = 310 K
+- $\tilde{D}$ (brownian diffusivity) = $(k_{B}TC_{C})/(3\pi\mu_{f}d_{p})$
+- $k_{B}$ (Boltzmann constant) = $1.3806488 \times 10^{23} J/K$
+- $\Delta t$ : time step
+*** Observations
+- As particle size increases, deposition increases significantly
+- Interpolation errors in LES1c and LES2 cause higher deposition throughout the geometry
+- Overprediction is observed at small particle sizes (d_p < 5 micrometer)
+- Significant variability in  moutn and throat due to numerical errors for intermediate particles (d_p = 6 micrometer)
+- Prediction of flow in the upper airways is sensitive to mesh size and turbulence model, but is less influenced by the inflow conditions.
+*** Geometry and Results (as Figures)
+**** Schematic of the respiratory system (Figure 01)
+**** Geometry of respiratory airways (Figure 02)
+***** Original realistic airway geometry (a)
+***** Geometry adopted for the benchmark case (b)
+***** Physical segmented model for deposition measurements (c)
+**** Schematic of the experimental set up (Figure 03)
+**** Contours of mean velocity magnitude and turbulent kinetic energy (Figure 04, 06, 08, 09, 11)
+***** Mean velocity magnitude
+****** Central sagittal plane of extrathoracic airways and trachea (4a)
+****** Carina (6a)
+****** Left main bronchus (6b)
+****** Right main bronchus (6c)
+****** Segment 5 (left lung) (9a)
+****** Segment 9 (right lung) (9b)
+****** Segment 7 (left lung) (9c)
+****** Segment 12 (right lung) (9d)
+***** Mean turbulent kinetic energy
+****** Central sagittal plane of extrathoracic airways and trachea (4b)
+****** Carina (8a)
+****** Left main bronchus (8b)
+****** Right main bronchus (8c)
+****** Segment 5 (left lung) (11a)
+****** Segment 9 (right lung) (11b)
+****** Segment 7 (left lung) (11c)
+****** Segment 12 (right lung) (11d)
+**** Profiles of mean velocity magnitude and turbulent kinetic energy (Figure 05, 07, 08, 10, 11)
+***** Cross-section: A1-A2 (5a)
+***** Cross-section: A1-A2 (5b)
+***** Cross-section: A1-A2 (5c)
+***** Cross-section: A1-A2 (5d)
+***** Cross-section: A1-A2 (5e)
+***** Cross-section: A1-A2 (5f)
+***** Cross-section: G1-G2 (7a, 8a (carina))
+***** Cross-section: H1-H2 (7b, 8b (left main bronchus))
+***** Cross-section: J1-J2 (7c, 8c (right main bronchus))
+***** Cross-section: M1-M2 (10a, 11a (segment 5))
+***** Cross-section: P1-P2 (10b, 11b (segment 9))
+***** Cross-section: U1-U2 (10c, 11c (segment 7))
+***** Cross-section: Y1-Y2 (10d, 11d (segment 12))
+**** Deposition patterns (Figure 14, 15, 16)
+
+*Fig 14*: Particle Diameter (d_p = 1.0 micrometer)
+*Fig 15*: Particle Diameter (d_p = 4.3 micrometer)
+*Fig 16*: Particle Diameter (d_p = 8.0 micrometer)
+
+***** Sagittal view of extrathoracic airways (14a, 15a, 16a)
+***** Posterior view of extrathoracic airways (14b, 15b, 16b)
+***** Anterior view of trachea and major bronchial airways (14c, 15c, 16c)
+***** Posterior view of trachea and major bronchial airways (14d, 15d, 16d)
+**** Deposition fractions vs particle size (Figure 12, 13)
+
+*Graph*: Deposition fraction (%) vs particle size (d_p (0.5 to 10 micrometer)) 
+
+***** Entire airway geometry (12a (15,30,60L/min LES1), 13a (60L/min))
+***** Mouth-throat region (12b (15,30,60L/min LES1), 13b (60L/min))
+***** Tracheobronchial tree (12c (15,30,60L/min LES1), 13c (60L/min))
+**** Deposition fractions vs segment (Figure 17, 18, 19)
+
+*Graph*: Deposition fraction (%) vs segments of airway geometry (segment 1 to segment 22)
+
+***** Particle size (d_p) = 0.5 micrometer (19a (RANS1))
+***** Particle size (d_p) = 1.0 micrometer (17a (LES))
+***** Particle size (d_p) = 2.5 micrometer (17b (LES), 18a (RANS))
+***** Particle size (d_p) = 4.3 micrometer (17c (LES), 18b (RANS), 19b (RANS1))
+***** Particle size (d_p) = 6.0 micrometer (17d (LES))
+***** Particle size (d_p) = 8.0 micrometer (17e (LES), 18c (RANS)
+***** Particle size (d_p) = 10.0 micrometer (17f (LES), 18d (RANS))
+** Aerosol physics included in the models
+
+* Limitations
+- 3D CFPD studies of extra-thoracic and upper conducting airways
+- Anatomically accurate models are limited to the first 6 or 7 generations due to imaging resolution
+- Lack of detaield experimental data sets for validation of regional deposition results
+
+* Further reading
+- Broader overview: Kleinstreuer and Zhang (2010) and Longest and Holbrook (2012)
+- Effect of condensation of cigarette smoke particles: Longest and Xi (2008)
+
+* Glossary
+- CFPD: Computational Fluid Particle Dynamics
+- CT: Computed Tomography
+- HRCT: High Resolution Computed Tomography
+- MRI: Magnetic Resonance Imaging
+- STL: Stereolithography files
+- PET: Positron Emission Tomography
+- in vitro, in vivo
+- Saffman lift: Transverse lift force experienced by particles in shear flow
+
+* Tasks Procedure
+** Recompile
+- remove Build/CMakeCache.txt
+- run ~cmake .. && make~
+** Fluid simulation
+- check output path in ~UserConfig.cmake~
+- Example file: siminhale.h (example file) -> check boundary conditions, boundary values, linear coeffs (f1)
+- Check dat file (particle.dat) check mesh scale
+- Main file: TNSE3D_ParMooN.c
+** Particle simulation
+** Class Structure
+*** Class: FE Database
+- type: Static
+- data: element type (triangle, square, ...) -> transformation (affine, bi-linear...) -> quadrature -> values[]
+*** Class: TRefTrans
+- dummy class to store multiple data types in an array
+- like a prototype for the classes like TriAffine, TQuadAffine, TQuadBilinear
+- used for type-casting 
+*** Notes
+ID -> enum
+ref -> xi, eta, phi(x)
+orig -> x, y
+u -> f
+ux -> du/dx
+D00 -> f
+*** Tasks (Particle.C)
+- [ ] Store velocity positions in sequential
+- [ ] Store velocity positions in parallel
+- [ ] Compare velocity positions
