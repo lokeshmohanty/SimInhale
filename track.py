@@ -197,7 +197,7 @@ class ParticleSimulation (Simulation):
         particlesErrored = df[df['error'] == 1].shape[0]
         return particlesTotal, particlesDeposited, particlesEscaped, particlesStagnant, particlesErrored
 
-    def categorise(row):  
+    def categorise(self, row):  
         if   row['z'] >= -0.06:
             return 1
         elif row['z'] >= -0.180 and row['x'] >= -0.016 and row['x'] < 0.002:

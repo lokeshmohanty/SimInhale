@@ -56,6 +56,13 @@ def categorise(row):
         return 22
     else:
         return -1
+
+def paperDf(size=4.3):
+    les1 = [3.113, 0.454, 0.749, 0.295, 1.695, 1.347, 1.259, 0.972, 1.280, 1.079, 3.840, 2.167, 0.257, 0.651, 1.829, 1.291, 2.654, 1.686, 4.334, 4.634, 2.537, 4.704]
+    les2 = [17.977, 5.771, 1.797, 0.849, 1.376, 1.841, 1.507, 1.368, 1.747, 1.660, 3.122, 2.834, 0.857, 0.733, 7.614, 3.547, 3.960, 6.137, 7.182, 3.707, 4.274, 4.637]
+    rans1 = [20.087, 7.173, 1.506, 1.534, 1.328, 1.765, 0.885, 1.831, 1.409, 1.928, 3.059, 2.123, 0.548, 0.403, 2.970, 1.285, 2.227, 3.234, 3.293, 2.219, 1.540, 2.630]
+    rans3 = [2.992, 0.503, 0.462, 0.307, 0.878, 0.869, 0.967, 0.722, 1.146, 1.117, 1.646, 1.030, 0.186, 0.397, 1.670, 1.425, 1.452, 1.133, 2.054, 2.123, 1.866, 1.845]
+    return les1, les2, rans1, rans3
     
 df = pd.read_csv(sys.argv[1])
 df['section'] = df.apply(lambda row: categorise(row), axis=1)
@@ -82,10 +89,17 @@ print("Total error: ", df[df['error'] == 1].shape[0])
 print("Error percentage: ", df[df['error'] == 1].shape[0] / df.shape[0] * 100)
 print(df_grouped)
 
-plt.plot(df_grouped['section'], df_grouped['Deposition fraction'], marker="x")
+les1, les2, rans1, rans3 = paperDf()
+plt.plot(df_grouped['section'], df_grouped['Deposition fraction'], marker="x", label="simulation")
+plt.plot(list(range(1, 23)), les1, marker="o", label="LES1")
+plt.plot(list(range(1, 23)), les2, marker="s", label="LES2")
+plt.plot(list(range(1, 23)), rans1, marker="v", label="RANS1")
+plt.plot(list(range(1, 23)), rans3, marker="1", label="RANS3")
 plt.xlabel("Segments")
 plt.ylabel("Deposition fraction (%)")
 plt.yscale("log")
+plt.title("Deposition fraction for different segments")
+plt.legend()
 plt.xticks(list(range(0, 22, 2)))
 plt.yticks([0.001, 0.01, 0.1, 1, 10, 100])
 
