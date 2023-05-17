@@ -30,7 +30,7 @@ def categorise(row):
         return 8
     elif row['z'] >= -0.206 and row['z'] < -0.190 and row['x'] >= -0.037 and row['x'] < -0.023:
         return 9
-    elif row['z'] >= -0.223 and row['z'] < -0.205 and row['x'] >= -0.034 and row['x'] < -0.014:
+    elif row['z'] >= -0.225 and row['z'] < -0.205 and row['x'] >= -0.034 and row['x'] < -0.014:
         return 10
     elif row['z'] >= -0.230 and row['z'] < -0.221 and row['x'] >= -0.049 and row['x'] < -0.031:
         return 11
@@ -46,7 +46,7 @@ def categorise(row):
         return 16
     elif row['z'] >= -0.260 and row['z'] < -0.222 and row['x'] >= -0.110 and row['x'] < -0.047:
         return 17
-    elif row['z'] >= -0.310 and row['z'] < -0.230 and row['x'] >= -0.066 and row['x'] < -0.020 and row['y'] >= 0.080 and row['y'] < 0.130:
+    elif row['z'] >= -0.310 and row['z'] < -0.230 and row['x'] >= -0.066 and row['x'] < -0.020 and row['y'] >= 0.080 and row['y'] < 0.120:
         return 18
     elif row['z'] >= -0.200 and row['z'] < -0.140 and row['x'] >= -0.110 and row['x'] < -0.040 and row['y'] >= 0.080 and row['y'] < 0.134:
         return 19
@@ -54,7 +54,7 @@ def categorise(row):
         return 20
     elif row['z'] >= -0.230 and row['z'] < -0.150 and row['x'] >= -0.090 and row['x'] < -0.020 and row['y'] >= 0.110 and row['y'] < 0.210:
         return 21
-    elif row['z'] >= -0.260 and row['z'] < -0.220 and row['x'] >= -0.070 and row['x'] < -0.020 and row['y'] >= 0.120 and row['y'] < 0.180:
+    elif row['z'] >= -0.290 and row['z'] < -0.220 and row['x'] >= -0.070 and row['x'] < -0.025 and row['y'] >= 0.120 and row['y'] < 0.180:
         return 22
     else:
         return -1

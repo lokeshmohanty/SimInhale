@@ -157,7 +157,7 @@ class ParticleSimulation (Simulation):
         csvFile = join(self.outputDirectory, files[-1])
         targetFile = join(self.outputDirectory, "deposition_fraction.")
         extensions = ['png', 'pdf', 'ps', 'eps', 'svg']
-        particlesTotal, particlesDeposited, particlesEscaped, particlesStagnant, particlesErrored = self.plotDepositionFraction(csvFile, targetFile, extensions)
+        particlesTotal, particlesDeposited, particlesEscaped, particlesStagnant, particlesErrored, files = self.plotDepositionFraction(csvFile, targetFile, extensions)
         mlflow.set_tag("Total Particles", particlesTotal)
         mlflow.set_tag("Deposited Particles", particlesDeposited)
         mlflow.set_tag("Escaped Particles", particlesEscaped)
@@ -165,7 +165,6 @@ class ParticleSimulation (Simulation):
         mlflow.set_tag("Errored Particles", particlesErrored)
 
         print("Logging Artifacts: Deposition Fraction Plots")
-        files = [targetFile + ext for ext in extensions]
         for i in tqdm(range(len(files))):
             mlflow.log_artifact(join(self.outputDirectory, files[i]), artifact_path=f"Output/Plots")
 
@@ -187,15 +186,16 @@ class ParticleSimulation (Simulation):
         plt.xticks(list(range(0, 22, 2)))
         plt.yticks([0.001, 0.01, 0.1, 1, 10, 100])
 
-        for ext in extensions:
-            plt.savefig(targetFile + ext, dpi=300)
+        files = [targetFile + ext for ext in extensions]
+        for file in files:
+            plt.savefig(file, dpi=300)
 
         particlesTotal = df.shape[0]
         particlesDeposited = particles
         particlesEscaped = df[df['escaped'] == 1].shape[0]
         particlesStagnant = df[df['escaped'] == 0].shape[0]
         particlesErrored = df[df['error'] == 1].shape[0]
-        return particlesTotal, particlesDeposited, particlesEscaped, particlesStagnant, particlesErrored
+        return particlesTotal, particlesDeposited, particlesEscaped, particlesStagnant, particlesErrored, files
 
     def categorise(self, row):  
         if   row['z'] >= -0.06:
@@ -216,7 +216,7 @@ class ParticleSimulation (Simulation):
             return 8
         elif row['z'] >= -0.206 and row['z'] < -0.190 and row['x'] >= -0.037 and row['x'] < -0.023:
             return 9
-        elif row['z'] >= -0.223 and row['z'] < -0.205 and row['x'] >= -0.034 and row['x'] < -0.014:
+        elif row['z'] >= -0.225 and row['z'] < -0.205 and row['x'] >= -0.034 and row['x'] < -0.014:
             return 10
         elif row['z'] >= -0.230 and row['z'] < -0.221 and row['x'] >= -0.049 and row['x'] < -0.031:
             return 11
@@ -232,7 +232,7 @@ class ParticleSimulation (Simulation):
             return 16
         elif row['z'] >= -0.260 and row['z'] < -0.222 and row['x'] >= -0.110 and row['x'] < -0.047:
             return 17
-        elif row['z'] >= -0.310 and row['z'] < -0.230 and row['x'] >= -0.066 and row['x'] < -0.020 and row['y'] >= 0.080 and row['y'] < 0.130:
+        elif row['z'] >= -0.310 and row['z'] < -0.230 and row['x'] >= -0.066 and row['x'] < -0.020 and row['y'] >= 0.080 and row['y'] < 0.120:
             return 18
         elif row['z'] >= -0.200 and row['z'] < -0.140 and row['x'] >= -0.110 and row['x'] < -0.040 and row['y'] >= 0.080 and row['y'] < 0.134:
             return 19
@@ -240,7 +240,7 @@ class ParticleSimulation (Simulation):
             return 20
         elif row['z'] >= -0.230 and row['z'] < -0.150 and row['x'] >= -0.090 and row['x'] < -0.020 and row['y'] >= 0.110 and row['y'] < 0.210:
             return 21
-        elif row['z'] >= -0.260 and row['z'] < -0.220 and row['x'] >= -0.070 and row['x'] < -0.020 and row['y'] >= 0.120 and row['y'] < 0.180:
+        elif row['z'] >= -0.290 and row['z'] < -0.220 and row['x'] >= -0.070 and row['x'] < -0.025 and row['y'] >= 0.120 and row['y'] < 0.180:
             return 22
         else:
             return -1
