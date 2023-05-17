@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 # Generates deposition fraction
-# Usage: python deposition_fraction.py <latest particle position csv>
+# Usage: python deposition_fraction.py <latest particle position csv> <save/show> <particle diameter>
+# save/show -> optional, default is show
+# particle diameter -> optional, default is 4.3; 0 -> don't add from paper
 
 import sys
 import pandas as pd
@@ -67,12 +69,9 @@ def paperDf(size=4.3):
 df = pd.read_csv(sys.argv[1])
 df['section'] = df.apply(lambda row: categorise(row), axis=1)
 
-# particles = df[df['deposited'] == 1].shape[0]
-
 df_grouped = pd.DataFrame(df[(df['deposition'] == 1) & (df['escaped'] == 0)]['section'])
 particles = df_grouped.shape[0]
 
-# df_grouped = pd.DataFrame(df[(df['escaped'] == 0)]['section'])
 df_grouped['count'] = 1
 df_grouped = df_grouped.groupby('section').sum('count').reset_index()
 df_grouped['Deposition fraction'] = (df_grouped['count'] / particles) * 100
@@ -89,12 +88,13 @@ print("Total error: ", df[df['error'] == 1].shape[0])
 print("Error percentage: ", df[df['error'] == 1].shape[0] / df.shape[0] * 100)
 print(df_grouped)
 
-les1, les2, rans1, rans3 = paperDf()
+if (len(sys.argv) > 3 and sys.argv[3] != 0):
+    les1, les2, rans1, rans3 = paperDf(sys.argv[3])
+    plt.plot(list(range(1, 23)), les1, marker="o", label="LES1")
+    plt.plot(list(range(1, 23)), les2, marker="s", label="LES2")
+    plt.plot(list(range(1, 23)), rans1, marker="v", label="RANS1")
+    plt.plot(list(range(1, 23)), rans3, marker="1", label="RANS3")
 plt.plot(df_grouped['section'], df_grouped['Deposition fraction'], marker="x", label="simulation")
-plt.plot(list(range(1, 23)), les1, marker="o", label="LES1")
-plt.plot(list(range(1, 23)), les2, marker="s", label="LES2")
-plt.plot(list(range(1, 23)), rans1, marker="v", label="RANS1")
-plt.plot(list(range(1, 23)), rans3, marker="1", label="RANS3")
 plt.xlabel("Segments")
 plt.ylabel("Deposition fraction (%)")
 plt.yscale("log")
