@@ -125,7 +125,7 @@ print("Error percentage: ", df[df['error'] == 1].shape[0] / df.shape[0] * 100)
 print(df_grouped)
 
 if (len(sys.argv) > 3 and sys.argv[3] != 0):
-    les1, les2, rans1, rans3 = paperDf(sys.argv[3])
+    les1, les2, rans1, rans3 = paperDf(float(sys.argv[3]))
     plt.plot(list(range(1, 23)), les1, marker="o", label="LES1")
     plt.plot(list(range(1, 23)), les2, marker="s", label="LES2")
     plt.plot(list(range(1, 23)), rans1, marker="v", label="RANS1")
