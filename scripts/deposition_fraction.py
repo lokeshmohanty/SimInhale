@@ -9,6 +9,18 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import rc
+from cycler import cycler
+
+plt.rcParams["text.usetex"] = True
+plt.rcParams["font.family"] = "serif"
+plt.rcParams["font.serif"] = ["Computer Modern"]
+plt.rcParams['xtick.labelsize'] = 20
+plt.rcParams['axes.titlesize'] = 20
+plt.rcParams['axes.labelsize'] = 20
+plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['ytick.labelsize'] = 20
+plt.rcParams['axes.prop_cycle'] = cycler(color=['darkblue', '#d62728', '#2ca02c', '#ff7f0e', '#bcbd22', '#8c564b', '#17becf', '#9467bd', '#e377c2', '#7f7f7f'])
 
 ## segments (z from 0.02)
 def categorise(row):  
@@ -28,33 +40,33 @@ def categorise(row):
         return 7
     elif row['z'] >= -0.207 and row['z'] < -0.187 and row['x'] >= -0.026 and row['x'] < -0.007:
         return 8
+    elif row['z'] >= -0.225 and row['z'] < -0.202 and row['x'] >= -0.034 and row['x'] < -0.014:
+        return 10
     elif row['z'] >= -0.206 and row['z'] < -0.190 and row['x'] >= -0.037 and row['x'] < -0.023:
         return 9
-    elif row['z'] >= -0.225 and row['z'] < -0.205 and row['x'] >= -0.034 and row['x'] < -0.014:
-        return 10
     elif row['z'] >= -0.230 and row['z'] < -0.221 and row['x'] >= -0.049 and row['x'] < -0.031:
         return 11
     elif row['z'] >= -0.246 and row['z'] < -0.226 and row['x'] >= -0.042 and row['x'] < -0.032:
         return 12
-    elif row['z'] >= -0.210 and row['z'] < -0.150 and row['x'] >= 0.041 and row['x'] < 0.090:
-        return 13
-    elif row['z'] >= -0.260 and row['z'] < -0.220 and row['x'] >= 0.011 and row['x'] < 0.046:
-        return 14
-    elif row['z'] >= -0.310 and row['z'] < -0.230 and row['x'] >= 0.033 and row['x'] < 0.083:
+    elif row['z'] >= -0.280 and row['z'] < -0.230 and row['x'] >= 0.033 and row['x'] < 0.083:
         return 15
-    elif row['z'] >= -0.245 and row['z'] < -0.205 and row['x'] >= 0.047 and row['x'] < 0.111:
+    elif row['z'] >= -0.245 and row['z'] < -0.205 and row['x'] >= 0.045 and row['x'] < 0.086:
         return 16
-    elif row['z'] >= -0.260 and row['z'] < -0.222 and row['x'] >= -0.110 and row['x'] < -0.047:
+    elif row['z'] >= -0.230 and row['z'] < -0.170 and row['x'] >= 0.036 and row['x'] < 0.070:
+        return 13
+    elif row['z'] >= -0.240 and row['z'] < -0.220 and row['x'] >= 0.011 and row['x'] < 0.046 and row['y'] < 0.165:
+        return 14
+    elif row['z'] >= -0.260 and row['z'] < -0.222 and row['x'] >= -0.090 and row['x'] < -0.047:
         return 17
-    elif row['z'] >= -0.310 and row['z'] < -0.230 and row['x'] >= -0.066 and row['x'] < -0.020 and row['y'] >= 0.080 and row['y'] < 0.120:
+    elif row['z'] >= -0.270 and row['z'] < -0.230 and row['x'] >= -0.066 and row['x'] < -0.020 and row['y'] >= 0.080 and row['y'] < 0.120:
         return 18
-    elif row['z'] >= -0.200 and row['z'] < -0.140 and row['x'] >= -0.110 and row['x'] < -0.040 and row['y'] >= 0.080 and row['y'] < 0.134:
+    elif row['z'] >= -0.200 and row['z'] < -0.140 and row['x'] >= -0.080 and row['x'] < -0.040 and row['y'] >= 0.080 and row['y'] < 0.134:
         return 19
-    elif row['z'] >= -0.245 and row['z'] < -0.225 and row['x'] >= -0.100 and row['x'] < -0.044 and row['y'] >= 0.095 and row['y'] < 0.110:
+    elif row['z'] >= -0.245 and row['z'] < -0.225 and row['x'] >= -0.090 and row['x'] < -0.044 and row['y'] >= 0.095 and row['y'] < 0.110:
         return 20
-    elif row['z'] >= -0.230 and row['z'] < -0.150 and row['x'] >= -0.090 and row['x'] < -0.020 and row['y'] >= 0.110 and row['y'] < 0.210:
+    elif row['z'] >= -0.280 and row['z'] < -0.150 and row['x'] >= -0.090 and row['x'] < -0.020 and row['y'] >= 0.110 and row['y'] < 0.170:
         return 21
-    elif row['z'] >= -0.290 and row['z'] < -0.220 and row['x'] >= -0.070 and row['x'] < -0.025 and row['y'] >= 0.120 and row['y'] < 0.180:
+    elif row['z'] >= -0.285 and row['z'] < -0.220 and row['x'] >= -0.070 and row['x'] < -0.025 and row['y'] >= 0.120 and row['y'] < 0.145:
         return 22
     else:
         return -1
@@ -77,7 +89,7 @@ def les2(size=4.3):
     if size == 8:
         return [37.706, 10.597, 2.978, 2.726, 2.645, 1.750, 0.999, 4.371, 2.316, 4.183, 6.048, 3.402, 0.218, 0.004, 4.917, 1.321, 1.600, 6.412, 4.115, 1.227, 0.998, 0.998]
     if size == 10:
-        return [48.105, 9.008, 3.854, 3.205, 1.567, 0.812, 0.295, 5.217, 1.166, 4.057, 4.336, 2.567, 0.013, 0.000, 2.073, 0.306, 0.291, 3.603, 0.893, 0.144, 0.123, 0.026]
+        return [48.105, 9.008, 3.854, 3.205, 1.567, 0.812, 0.295, 5.217, 1.166, 4.057, 4.336, 2.567, 0.013, 0.001, 2.073, 0.306, 0.291, 3.603, 0.893, 0.144, 0.123, 0.026]
 
 def rans1(size=4.3):
     if size == 2.5:
@@ -123,21 +135,29 @@ print("Stagnant percentage: ", df[df['deposition'] == 0].shape[0] / df.shape[0] 
 print("Total error: ", df[df['error'] == 1].shape[0])
 print("Error percentage: ", df[df['error'] == 1].shape[0] / df.shape[0] * 100)
 print(df_grouped)
+df_grouped = df_grouped[df_grouped['section'] != -1]
 
+# Generate Plot
+plt.figure(figsize=(6.4,4.8),dpi=300)
 if (len(sys.argv) > 3 and sys.argv[3] != 0):
     les1, les2, rans1, rans3 = paperDf(float(sys.argv[3]))
-    plt.plot(list(range(1, 23)), les1, marker="o", label="LES1")
-    plt.plot(list(range(1, 23)), les2, marker="s", label="LES2")
-    plt.plot(list(range(1, 23)), rans1, marker="v", label="RANS1")
-    plt.plot(list(range(1, 23)), rans3, marker="1", label="RANS3")
-plt.plot(df_grouped['section'], df_grouped['Deposition fraction'], marker="x", label="simulation")
+    # plt.plot(list(range(1, 23)), les1, marker="o", label="LES1")
+    # plt.plot(list(range(1, 23)), les2, marker="s", label="LES2")
+    # plt.plot(list(range(1, 23)), rans1, marker="v", label="RANS1")
+    # plt.plot(list(range(1, 23)), rans3, marker="1", label="RANS3")
+plt.plot(df_grouped['section'], df_grouped['Deposition fraction'], marker="x", label="VMS")
 plt.xlabel("Segments")
-plt.ylabel("Deposition fraction (%)")
+plt.ylabel("Deposition fraction " +"(\%)")
 plt.yscale("log")
-plt.title("Deposition fraction for different segments (size = " + str(sys.argv[3]) + ")")
-plt.legend()
-plt.xticks(list(range(0, 22, 2)))
+# plt.title("Deposition fraction for different segments (size = " + str(sys.argv[3]) + " $\mu m$)")
+plt.legend(loc="lower left", ncol=2, fontsize=10)
+plt.xticks(list(range(1, 24, 2)))
 plt.yticks([0.001, 0.01, 0.1, 1, 10, 100])
+# plt.grid(True, which="both", ls="-", alpha=0.5)
+# plt.grid(which='major', axis='both', color='k', alpha=0.6)
+# plt.grid(which='minor', axis='both', color='k', alpha=0.2)
+plt.grid(alpha=0.5)
+plt.tight_layout()
 
 if len(sys.argv) > 2 and sys.argv[2] == 'save':
     plt.savefig('deposition_fraction.png', dpi=300)
